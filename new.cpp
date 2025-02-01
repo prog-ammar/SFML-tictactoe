@@ -13,10 +13,21 @@ class Game
     VertexArray line3;
     VertexArray line4;
     CircleShape circle[9];
-    vector <int> move;
+    vector <int> p1_move;
+    vector <int> p2_move;
+    int t_moves;
+    Font font;
+    Text string;
+    int occ[9];
     public:
-    Game(): window(VideoMode(800,800),"Tic-Tac-Toe"),line1(Lines,2),line2(Lines,2),line3(Lines,2),line4(Lines,2)
-    {}
+    Game(): window(VideoMode(800,800),"Tic-Tac-Toe"),line1(Lines,2),line2(Lines,2),line3(Lines,2),line4(Lines,2),t_moves(0),occ{0}
+    {
+      font.loadFromFile("Arial.ttf");
+      string.setFont(font);
+      string.setFillColor(Color::Black);
+      string.setCharacterSize(30);
+      string.setPosition(250,150);
+    }
     void run()
     {
       while(window.isOpen())
@@ -33,6 +44,7 @@ class Game
         drawlines();
         moves();
         drawcircles();
+        checkwin();
         window.display();
       }
     }
@@ -66,56 +78,119 @@ class Game
 
     void moves()
     {
-        if(Keyboard::isKeyPressed(Keyboard::Num1))
+        if(Keyboard::isKeyPressed(Keyboard::Num1) && occ[0]==0)
       {
-        move.push_back(0);
+        (t_moves%2==0)?p1_move.push_back(0):p2_move.push_back(0);
+        t_moves++;
       }
-      else if(Keyboard::isKeyPressed(Keyboard::Num2))
+      else if(Keyboard::isKeyPressed(Keyboard::Num2) && occ[1]==0)
       {
-        move.push_back(1);
+        (t_moves%2==0)?p1_move.push_back(1):p2_move.push_back(1);
+        t_moves++;
       }
-      else if(Keyboard::isKeyPressed(Keyboard::Num3))
+      else if(Keyboard::isKeyPressed(Keyboard::Num3) && occ[2]==0)
       {
-        move.push_back(2);
+        (t_moves%2==0)?p1_move.push_back(2):p2_move.push_back(2);
+        t_moves++;
       }
-      else if(Keyboard::isKeyPressed(Keyboard::Num4))
+      else if(Keyboard::isKeyPressed(Keyboard::Num4) && occ[3]==0)
       {
-        move.push_back(3);
+        (t_moves%2==0)?p1_move.push_back(3):p2_move.push_back(3);
+        t_moves++;
       }
-      else if(Keyboard::isKeyPressed(Keyboard::Num5))
+      else if(Keyboard::isKeyPressed(Keyboard::Num5) && occ[4]==0)
       {
-        move.push_back(4);
+       (t_moves%2==0)?p1_move.push_back(4):p2_move.push_back(4);
+       t_moves++;
       }
-      else if(Keyboard::isKeyPressed(Keyboard::Num6))
+      else if(Keyboard::isKeyPressed(Keyboard::Num6) && occ[5]==0)
       {
-        move.push_back(5);
+        (t_moves%2==0)?p1_move.push_back(5):p2_move.push_back(5);
+        t_moves++;
       }
-      else if(Keyboard::isKeyPressed(Keyboard::Num7))
+      else if(Keyboard::isKeyPressed(Keyboard::Num7) && occ[6]==0)
       {
-        move.push_back(6);
+        (t_moves%2==0)?p1_move.push_back(6):p2_move.push_back(6);
+        t_moves++;
       }
-      else if(Keyboard::isKeyPressed(Keyboard::Num8))
+      else if(Keyboard::isKeyPressed(Keyboard::Num8) && occ[7]==0)
       {
-        move.push_back(7);
+        (t_moves%2==0)?p1_move.push_back(7):p2_move.push_back(7);
+        t_moves++;
       }
-      else if(Keyboard::isKeyPressed(Keyboard::Num9))
+      else if(Keyboard::isKeyPressed(Keyboard::Num9) && occ[8]==0)
       {
-        move.push_back(8);
+        (t_moves%2==0)?p1_move.push_back(8):p2_move.push_back(8);
+        t_moves++;
+      }
+    }
+    void checkwin()
+    {
+      const int win[8][3]={
+        {0,1,2},{3,4,5},{6,7,8},{0,3,5},{1,4,6},{2,5,8},{0,4,8},{2,4,6}
+      };
+      for(int i=0;i<8;i++)
+      {
+        bool wini=true;
+        for(int j=0;j<3;j++)
+        {
+          if(find(p1_move.begin(),p1_move.end(),win[i][j])!=p1_move.end());
+          else
+          {
+            wini=false;
+            break;
+          }
+        }
+        if(wini)
+        {
+           string.setString("Player 1 Wins !");
+           window.draw(string);
+           return;
+        }
+      }
+      for(int i=0;i<8;i++)
+      {
+        bool wini=true;
+        for(int j=0;j<3;j++)
+        {
+          if(find(p2_move.begin(),p2_move.end(),win[i][j])!=p2_move.end());
+          else
+          {
+            wini=false;
+            break;
+          }
+        }
+        if(wini)
+        {
+           string.setString("Player 2 Wins !");
+           window.draw(string);
+           return;
+        }
       }
     }
 
     void drawcircles()
     {
-      for(int i: move)
+      for(int i: p1_move)
       {
         circle[i].setRadius(20);
         int x=(i/3)*75+280;
         int y=(i%3)*115+245;
         circle[i].setOutlineThickness(3.f);
-        circle[i].setFillColor((i%2==0)?Color::Green:Color::Red);
+        circle[i].setOutlineColor(Color::Green);
         circle[i].setPosition(y,x);
         window.draw(circle[i]);
-      }   
+      } 
+      for(int i :p2_move)
+      {
+        circle[i].setRadius(20);
+        int x=(i/3)*75+280;
+        int y=(i%3)*115+245;
+        circle[i].setOutlineThickness(3.f);
+        circle[i].setOutlineColor(Color::Red);
+        circle[i].setPosition(y,x);
+        window.draw(circle[i]);
+      }  
     }
 };
 
