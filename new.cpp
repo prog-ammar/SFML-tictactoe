@@ -20,7 +20,7 @@ class Game
     Text string;
     int occ[9];
     public:
-    Game(): window(VideoMode(800,800),"Tic-Tac-Toe"),line1(Lines,2),line2(Lines,2),line3(Lines,2),line4(Lines,2),t_moves(0),occ{0}
+    Game(): window(VideoMode(800,800),"Tic-Tac-Toe"),line1(Lines,2),line2(Lines,2),line3(Lines,2),line4(Lines,2),t_moves(2),occ{0}
     {
       font.loadFromFile("Arial.ttf");
       string.setFont(font);
@@ -82,52 +82,61 @@ class Game
       {
         (t_moves%2==0)?p1_move.push_back(0):p2_move.push_back(0);
         t_moves++;
+        occ[0]=1;
       }
       else if(Keyboard::isKeyPressed(Keyboard::Num2) && occ[1]==0)
       {
         (t_moves%2==0)?p1_move.push_back(1):p2_move.push_back(1);
         t_moves++;
+        occ[1]=1;
       }
       else if(Keyboard::isKeyPressed(Keyboard::Num3) && occ[2]==0)
       {
         (t_moves%2==0)?p1_move.push_back(2):p2_move.push_back(2);
         t_moves++;
+        occ[2]=1;
       }
       else if(Keyboard::isKeyPressed(Keyboard::Num4) && occ[3]==0)
       {
         (t_moves%2==0)?p1_move.push_back(3):p2_move.push_back(3);
         t_moves++;
+        occ[3]=1;
       }
       else if(Keyboard::isKeyPressed(Keyboard::Num5) && occ[4]==0)
       {
        (t_moves%2==0)?p1_move.push_back(4):p2_move.push_back(4);
        t_moves++;
+       occ[4]=1;
       }
       else if(Keyboard::isKeyPressed(Keyboard::Num6) && occ[5]==0)
       {
         (t_moves%2==0)?p1_move.push_back(5):p2_move.push_back(5);
         t_moves++;
+        occ[5]=1;
       }
       else if(Keyboard::isKeyPressed(Keyboard::Num7) && occ[6]==0)
       {
         (t_moves%2==0)?p1_move.push_back(6):p2_move.push_back(6);
         t_moves++;
+        occ[6]=1;
       }
       else if(Keyboard::isKeyPressed(Keyboard::Num8) && occ[7]==0)
       {
         (t_moves%2==0)?p1_move.push_back(7):p2_move.push_back(7);
         t_moves++;
+        occ[7]=1;
       }
       else if(Keyboard::isKeyPressed(Keyboard::Num9) && occ[8]==0)
       {
         (t_moves%2==0)?p1_move.push_back(8):p2_move.push_back(8);
         t_moves++;
+        occ[8]=1;
       }
     }
     void checkwin()
     {
       const int win[8][3]={
-        {0,1,2},{3,4,5},{6,7,8},{0,3,5},{1,4,6},{2,5,8},{0,4,8},{2,4,6}
+        {0,1,2},{3,4,5},{6,7,8},{0,3,5},{1,4,6},{2,5,7},{0,4,8},{2,4,6}
       };
       for(int i=0;i<8;i++)
       {
@@ -180,8 +189,8 @@ class Game
         circle[i].setOutlineColor(Color::Green);
         circle[i].setPosition(y,x);
         window.draw(circle[i]);
-      } 
-      for(int i :p2_move)
+      }
+      for(int i: p2_move)
       {
         circle[i].setRadius(20);
         int x=(i/3)*75+280;
@@ -191,7 +200,7 @@ class Game
         circle[i].setPosition(y,x);
         window.draw(circle[i]);
       }  
-    }
+}
 };
 
 int main()
