@@ -13,10 +13,9 @@ class Game
     VertexArray line3;
     VertexArray line4;
     CircleShape circle[9];
-    int arr[9];
-    int l;
+    vector <int> move;
     public:
-    Game(): window(VideoMode(800,800),"Tic-Tac-Toe"),line1(Lines,2),line2(Lines,2),line3(Lines,2),line4(Lines,2),l(-1)
+    Game(): window(VideoMode(800,800),"Tic-Tac-Toe"),line1(Lines,2),line2(Lines,2),line3(Lines,2),line4(Lines,2)
     {}
     void run()
     {
@@ -33,6 +32,7 @@ class Game
         window.clear(Color::White);
         drawlines();
         moves();
+        drawcircles();
         window.display();
       }
     }
@@ -68,51 +68,54 @@ class Game
     {
         if(Keyboard::isKeyPressed(Keyboard::Num1))
       {
-        drawcircles(0);
+        move.push_back(0);
       }
       else if(Keyboard::isKeyPressed(Keyboard::Num2))
       {
-        drawcircles(1);
+        move.push_back(1);
       }
       else if(Keyboard::isKeyPressed(Keyboard::Num3))
       {
-        drawcircles(2);
+        move.push_back(2);
       }
       else if(Keyboard::isKeyPressed(Keyboard::Num4))
       {
-        drawcircles(3);
+        move.push_back(3);
       }
       else if(Keyboard::isKeyPressed(Keyboard::Num5))
       {
-        drawcircles(4);
+        move.push_back(4);
       }
       else if(Keyboard::isKeyPressed(Keyboard::Num6))
       {
-        drawcircles(5);
+        move.push_back(5);
       }
       else if(Keyboard::isKeyPressed(Keyboard::Num7))
       {
-        drawcircles(6);
+        move.push_back(6);
       }
       else if(Keyboard::isKeyPressed(Keyboard::Num8))
       {
-        drawcircles(7);
+        move.push_back(7);
       }
       else if(Keyboard::isKeyPressed(Keyboard::Num9))
       {
-        drawcircles(8);
+        move.push_back(8);
       }
     }
 
-    void drawcircles(int i)
+    void drawcircles()
     {
+      for(int i: move)
+      {
         circle[i].setRadius(20);
         int x=(i/3)*75+280;
         int y=(i%3)*115+245;
         circle[i].setOutlineThickness(3.f);
-        circle[i].setFillColor(Color::Green);
+        circle[i].setFillColor((i%2==0)?Color::Green:Color::Red);
         circle[i].setPosition(y,x);
         window.draw(circle[i]);
+      }   
     }
 };
 
