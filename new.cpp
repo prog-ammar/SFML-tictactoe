@@ -19,6 +19,7 @@ class Game
     Font font;
     Text string;
     int occ[9];
+
     public:
     Game(): window(VideoMode(800,800),"Tic-Tac-Toe"),line1(Lines,2),line2(Lines,2),line3(Lines,2),line4(Lines,2),t_moves(2),occ{0}
     {
@@ -32,6 +33,14 @@ class Game
     {
       while(window.isOpen())
       {
+      window.clear(Color::White);
+      string.setString("Press A To Start");
+      window.draw(string);
+      window.display();
+      if(Keyboard::isKeyPressed(Keyboard::A))
+      {
+         while(window.isOpen())
+        {
         Event ef;
         while(window.pollEvent(ef))
         {
@@ -46,7 +55,10 @@ class Game
         drawcircles();
         checkwin();
         window.display();
+        }
+        break;
       }
+      } 
     }
     void drawlines()
     {
@@ -154,6 +166,7 @@ class Game
         {
            string.setString("Player 1 Wins !");
            window.draw(string);
+           reset();
            return;
         }
       }
@@ -173,6 +186,7 @@ class Game
         {
            string.setString("Player 2 Wins !");
            window.draw(string);
+           reset();
            return;
         }
       }
@@ -201,6 +215,20 @@ class Game
         window.draw(circle[i]);
       }  
 }
+
+void reset()
+{
+  window.display();
+  sf::sleep(sf::seconds(3));
+  t_moves=2;
+  p1_move.clear();
+  p2_move.clear();
+  for(int i=0;i<8;i++)
+  {
+    occ[i]=0;
+  }
+}
+
 };
 
 int main()
