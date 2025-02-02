@@ -27,7 +27,7 @@ class Game
       string.setFont(font);
       string.setFillColor(Color::Black);
       string.setCharacterSize(30);
-      string.setPosition(250,150);
+      string.setPosition(285,125);
     }
     void run()
     {
@@ -54,6 +54,7 @@ class Game
         moves();
         drawcircles();
         checkwin();
+        displayturn();
         window.display();
         }
         break;
@@ -144,6 +145,10 @@ class Game
         t_moves++;
         occ[8]=1;
       }
+      else if(Keyboard::isKeyPressed(Keyboard::R))
+      {
+        reset();
+      }
     }
     void checkwin()
     {
@@ -184,6 +189,7 @@ class Game
         }
         if(wini)
         {
+           window.clear(Color::White);
            string.setString("Player 2 Wins !");
            window.draw(string);
            reset();
@@ -191,7 +197,19 @@ class Game
         }
       }
     }
-
+    void displayturn()
+    {
+      if(t_moves%2==0)
+      {
+        string.setString("Player 1 Turn");
+        window.draw(string);
+      }
+      else
+      {
+        string.setString("Player 2 Turn");
+        window.draw(string);
+      }
+    }
     void drawcircles()
     {
       for(int i: p1_move)
